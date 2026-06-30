@@ -75,8 +75,8 @@ function HomePage() {
       {/* Header */}
       <header className="sticky top-0 z-30 border-b border-border bg-white/95 px-4 py-3 backdrop-blur">
         <div className="mb-3 flex items-center justify-between">
-          <Link to="/" className="text-2xl font-black tracking-tight text-primary">
-            SUGO
+          <Link to="/" aria-label="SUGO 홈">
+            <SugoLogo size="md" />
           </Link>
           <div className="flex items-center gap-3 text-foreground">
             <Link to="/search" aria-label="검색">
