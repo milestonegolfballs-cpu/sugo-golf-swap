@@ -74,7 +74,7 @@ function HomePage() {
     <MobileShell>
       {/* Header */}
       <header className="sticky top-0 z-30 border-b border-border bg-white/95 px-4 py-3 backdrop-blur">
-        <div className="mb-3 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Link to="/" aria-label="SUGO 홈">
             <SugoLogo size="md" />
           </Link>
@@ -87,15 +87,6 @@ function HomePage() {
             </button>
           </div>
         </div>
-        <Link
-          to="/search"
-          className="flex items-center gap-2 rounded-full bg-surface-strong px-4 py-2.5"
-        >
-          <Search className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">
-            어떤 골프공을 찾으시나요?
-          </span>
-        </Link>
       </header>
 
       {/* Hero */}
