@@ -25,7 +25,7 @@ function SearchPage() {
       let query = supabase
         .from("listings")
         .select(
-          "id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type",
+          "id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type, category",
         )
         .eq("is_active", true)
         .order("created_at", { ascending: false })

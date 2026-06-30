@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Search, Bell, ChevronRight } from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/layout/MobileShell";
 import {
@@ -31,7 +32,7 @@ export const Route = createFileRoute("/")({
 });
 
 const COLS =
-  "id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type";
+  "id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type, category";
 
 async function fetchHomeData() {
   const [wanted, recommended, recent] = await Promise.all([
@@ -65,6 +66,8 @@ async function fetchHomeData() {
 }
 
 function HomePage() {
+  const navigate = useNavigate();
+  const [q, setQ] = useState("");
   const { data } = useQuery({ queryKey: ["home"], queryFn: fetchHomeData });
   const wanted = data?.wanted ?? [];
   const recommended = data?.recommended ?? [];
@@ -78,44 +81,63 @@ function HomePage() {
           <Link to="/" aria-label="SUGO 홈">
             <SugoLogo size="md" />
           </Link>
-          <div className="flex items-center gap-3 text-foreground">
-            <Link to="/search" aria-label="검색">
-              <Search className="h-6 w-6" strokeWidth={1.8} />
-            </Link>
-            <button aria-label="알림">
-              <Bell className="h-6 w-6" strokeWidth={1.8} />
-            </button>
-          </div>
+          <Link
+            to="/search"
+            aria-label="검색"
+            className="grid h-10 w-10 place-items-center rounded-full text-foreground"
+          >
+            <Search className="h-5 w-5" strokeWidth={1.8} />
+          </Link>
         </div>
       </header>
 
       {/* Hero */}
-      <section className="bg-primary px-6 py-7 text-primary-foreground">
-        <h1 className="text-[22px] font-bold leading-tight">
+      <section className="px-5 pb-6 pt-7">
+        <h1 className="text-[28px] font-bold leading-[1.2] tracking-tight text-foreground">
           수고한 골프공의
           <br />
-          새로운 시작
+          <span className="text-primary">새로운 시작</span>
         </h1>
-        <p className="mt-2 text-sm leading-relaxed text-primary-foreground/85">
+        <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
           골프공을 사고, 팔고,
           <br />
           다시 연결하세요.
         </p>
+
+        {/* Large search bar */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            navigate({ to: "/search" });
+          }}
+          className="mt-6 flex items-center gap-2 rounded-2xl bg-surface px-4 py-3.5 shadow-soft ring-1 ring-border focus-within:ring-primary"
+        >
+          <Search className="h-5 w-5 shrink-0 text-muted-foreground" strokeWidth={1.8} />
+          <input
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            placeholder="찾는 골프공을 검색해보세요."
+            className="min-w-0 flex-1 bg-transparent text-[15px] text-foreground placeholder:text-muted-foreground focus:outline-none"
+            aria-label="검색"
+          />
+        </form>
       </section>
 
-      {/* Categories */}
-      <section className="grid grid-cols-3 gap-3 px-4 py-5">
+      {/* Categories — 3 large rounded cards */}
+      <section className="grid grid-cols-3 gap-3 px-4 pb-2">
         {CATEGORIES.map((c) => (
           <Link
             key={c.slug}
             to="/category/$slug"
             params={{ slug: c.slug }}
-            className="flex flex-col items-center gap-2"
+            className="group flex flex-col items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-border transition active:scale-[0.98]"
           >
-            <div className="grid h-16 w-16 place-items-center rounded-2xl bg-primary-soft text-2xl transition-transform active:scale-95">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-primary-soft text-3xl">
               {c.emoji}
             </div>
-            <span className="text-[12px] font-medium text-foreground">{c.label}</span>
+            <span className="text-center text-[12px] font-semibold leading-tight text-foreground">
+              {c.label}
+            </span>
           </Link>
         ))}
       </section>
@@ -123,7 +145,7 @@ function HomePage() {
       {/* Wanted CTA */}
       <Link
         to="/sell"
-        className="mx-4 flex items-center justify-between rounded-xl bg-foreground p-4 text-white"
+        className="mx-4 mt-5 flex items-center justify-between rounded-2xl bg-foreground p-4 text-white shadow-soft"
       >
         <div>
           <h3 className="text-sm font-bold">📢 지금 필요한 공이 있나요?</h3>
@@ -134,13 +156,8 @@ function HomePage() {
 
       {/* 구해요 row */}
       {wanted.length > 0 && (
-        <section className="mt-7">
-          <div className="mb-3 flex items-center justify-between px-4">
-            <h3 className="font-bold text-foreground">📢 구해요</h3>
-            <Link to="/search" className="text-xs text-muted-foreground">
-              전체보기
-            </Link>
-          </div>
+        <section className="mt-8">
+          <SectionHeader title="📢 구해요" />
           <div className="no-scrollbar flex gap-3 overflow-x-auto px-4 pb-1">
             {wanted.map((l) => (
               <WantedChip key={l.id} listing={l} />
@@ -150,13 +167,8 @@ function HomePage() {
       )}
 
       {/* Recommended */}
-      <section className="mt-7">
-        <div className="mb-3 flex items-center justify-between px-4">
-          <h3 className="font-bold text-foreground">🔥 추천 상품</h3>
-          <Link to="/search" className="text-xs text-muted-foreground">
-            전체보기
-          </Link>
-        </div>
+      <section className="mt-8">
+        <SectionHeader title="🔥 추천 상품" />
         {recommended.length > 0 ? (
           <div className="no-scrollbar flex gap-3 overflow-x-auto px-4 pb-1">
             {recommended.map((l) => (
@@ -170,11 +182,9 @@ function HomePage() {
 
       {/* Recent */}
       <section className="mt-8">
-        <div className="mb-3 flex items-center justify-between px-4">
-          <h3 className="font-bold text-foreground">🆕 최근 등록 상품</h3>
-        </div>
+        <SectionHeader title="🆕 최근 등록 상품" hideMore />
         {recent.length > 0 ? (
-          <div className="space-y-4 px-4">
+          <div className="space-y-3 px-4">
             {recent.map((l) => (
               <ListingCardHorizontal key={l.id} listing={l} />
             ))}
@@ -189,9 +199,22 @@ function HomePage() {
   );
 }
 
+function SectionHeader({ title, hideMore }: { title: string; hideMore?: boolean }) {
+  return (
+    <div className="mb-3 flex items-center justify-between px-4">
+      <h3 className="text-[15px] font-bold text-foreground">{title}</h3>
+      {!hideMore && (
+        <Link to="/search" className="text-xs text-muted-foreground">
+          전체보기
+        </Link>
+      )}
+    </div>
+  );
+}
+
 function EmptyHint() {
   return (
-    <div className="mx-4 rounded-xl border border-dashed border-border bg-surface p-6 text-center text-sm text-muted-foreground">
+    <div className="mx-4 rounded-2xl border border-dashed border-border bg-surface p-6 text-center text-sm text-muted-foreground">
       아직 등록된 상품이 없어요.
       <br />첫 번째 판매자가 되어보세요.
     </div>
