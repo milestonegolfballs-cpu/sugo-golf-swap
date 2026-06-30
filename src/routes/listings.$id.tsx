@@ -26,9 +26,22 @@ function ListingDetail() {
       const { data } = await supabase
         .from("listings")
         .select(
-          "id, user_id, listing_type, category, title, description, region, brand, manufacturer, quantity, condition, price, price_per_ball, photos, created_at, profiles:profiles!listings_user_id_fkey(nickname, avatar_url, region)",
+          "id, user_id, listing_type, category, title, description, region, brand, manufacturer, quantity, condition, price, price_per_ball, photos, created_at",
         )
         .eq("id", id)
+        .maybeSingle();
+      return data;
+    },
+  });
+
+  const { data: profile } = useQuery({
+    queryKey: ["listing-seller", listing?.user_id],
+    enabled: !!listing?.user_id,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("profiles")
+        .select("nickname, avatar_url, region")
+        .eq("id", listing!.user_id)
         .maybeSingle();
       return data;
     },
