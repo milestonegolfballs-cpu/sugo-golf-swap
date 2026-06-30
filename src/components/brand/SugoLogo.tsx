@@ -23,7 +23,7 @@ export function SugoLogo({
   );
   const Small = ({ children }: { children: string }) => (
     <span
-      className={`${scale.small} font-semibold uppercase tracking-[0.12em] leading-none text-muted-foreground`}
+      className={`${scale.small} font-semibold tracking-[0.12em] leading-none text-muted-foreground`}
     >
       {children}
     </span>
@@ -31,7 +31,7 @@ export function SugoLogo({
 
   return (
     <span
-      aria-label="SUGO — Sell Ur GOlfballs"
+      aria-label="SUGO — sell ur golfballs"
       className={`inline-flex items-baseline gap-[2px] ${className}`}
     >
       <Big>S</Big>
