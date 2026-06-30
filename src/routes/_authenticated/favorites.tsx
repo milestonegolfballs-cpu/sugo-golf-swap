@@ -18,7 +18,7 @@ function FavoritesPage() {
       const { data } = await supabase
         .from("favorites")
         .select(
-          "listing:listings(id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type)",
+          "listing:listings(id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type, category)",
         )
         .eq("user_id", user.id)
         .order("created_at", { ascending: false });

@@ -30,7 +30,7 @@ function CategoryPage() {
       const { data } = await supabase
         .from("listings")
         .select(
-          "id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type",
+          "id, title, price, price_per_ball, quantity, region, brand, photos, created_at, listing_type, category",
         )
         .eq("category", slug as CategorySlug)
         .eq("is_active", true)
