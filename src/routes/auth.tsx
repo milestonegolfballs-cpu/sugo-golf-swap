@@ -92,7 +92,7 @@ function AuthPage() {
       </header>
 
       <div className="px-6 pt-6">
-        <h1 className="text-3xl font-black text-primary">SUGO</h1>
+        <SugoLogo size="lg" />
         <p className="mt-2 text-base text-foreground">
           수고한 골프공의 새로운 시작
         </p>
