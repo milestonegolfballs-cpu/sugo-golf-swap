@@ -99,7 +99,6 @@ function ListingDetail() {
   }
 
   const photos = listing.photos ?? [];
-  const profile = (listing as { profiles?: { nickname?: string; region?: string; avatar_url?: string } }).profiles;
   const isOwner = user?.id === listing.user_id;
 
   return (
