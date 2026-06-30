@@ -108,7 +108,7 @@ function HomePage() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            navigate({ to: "/search", search: { q: q || undefined } });
+            navigate({ to: "/search" });
           }}
           className="mt-6 flex items-center gap-2 rounded-2xl bg-surface px-4 py-3.5 shadow-soft ring-1 ring-border focus-within:ring-primary"
         >
