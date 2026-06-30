@@ -10,6 +10,7 @@ import {
   type ListingPreview,
 } from "@/components/listings/ListingCard";
 import { CATEGORIES } from "@/lib/categories";
+import { SugoLogo } from "@/components/brand/SugoLogo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
