@@ -11,6 +11,7 @@ import {
   type ListingPreview,
 } from "@/components/listings/ListingCard";
 import { CATEGORIES } from "@/lib/categories";
+import { SugoLogo } from "@/components/brand/SugoLogo";
 import { CategoryBallIcon } from "@/components/icons/GolfBallIcons";
 
 export const Route = createFileRoute("/")({
