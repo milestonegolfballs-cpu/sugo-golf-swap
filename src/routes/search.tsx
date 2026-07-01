@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ArrowLeft, Search as SearchIcon } from "lucide-react";
+import { CategoryBallIcon } from "@/components/icons/GolfBallIcons";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/layout/MobileShell";
 import {
@@ -61,7 +62,8 @@ function SearchPage() {
           </Chip>
           {CATEGORIES.map((c) => (
             <Chip key={c.slug} active={cat === c.slug} onClick={() => setCat(c.slug)}>
-              {c.emoji} {c.label}
+              <CategoryBallIcon slug={c.slug} className="mr-1.5" />
+              {c.label}
             </Chip>
           ))}
         </div>
