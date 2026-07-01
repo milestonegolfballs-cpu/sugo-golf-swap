@@ -12,6 +12,7 @@ import {
 } from "@/components/listings/ListingCard";
 import { CATEGORIES } from "@/lib/categories";
 import { SugoLogo } from "@/components/brand/SugoLogo";
+import { CategoryBallIcon } from "@/components/icons/GolfBallIcons";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -132,8 +133,8 @@ function HomePage() {
             params={{ slug: c.slug }}
             className="group flex flex-col items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-border transition active:scale-[0.98]"
           >
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-primary-soft text-3xl">
-              {c.emoji}
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-primary-soft text-primary">
+              <CategoryBallIcon slug={c.slug} />
             </div>
             <span className="text-center text-[12px] font-semibold leading-tight text-foreground">
               {c.label}
