@@ -62,7 +62,7 @@ function SearchPage() {
           </Chip>
           {CATEGORIES.map((c) => (
             <Chip key={c.slug} active={cat === c.slug} onClick={() => setCat(c.slug)}>
-              <CategoryBallIcon slug={c.slug} className="mr-1.5" />
+              <CategoryBallIcon slug={c.slug} className="mr-1.5 h-4 w-4" />
               {c.label}
             </Chip>
           ))}
