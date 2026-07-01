@@ -204,7 +204,7 @@ function SectionHeader({ title, hideMore }: { title: string; hideMore?: boolean 
     <div className="mb-3 flex items-center justify-between px-4">
       <h3 className="text-[15px] font-bold text-foreground">{title}</h3>
       {!hideMore && (
-        <Link to="/search" className="text-xs text-muted-foreground">
+        <Link to="/listings" className="text-xs text-muted-foreground">
           전체보기
         </Link>
       )}
