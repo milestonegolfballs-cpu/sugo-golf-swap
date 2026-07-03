@@ -87,7 +87,7 @@ function ListingDetail() {
   const isOwner = user?.id === listing.user_id;
   const category = listing.category as CategorySlug;
   // Simple heuristic — no seller_type in schema; treat everyone as 개인 for now.
-  const sellerType: "개인" | "업체" = "개인";
+  const sellerType: string = "개인";
 
   async function handleDelete() {
     if (!confirm("정말 삭제하시겠습니까?")) return;
