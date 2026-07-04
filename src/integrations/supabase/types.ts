@@ -56,9 +56,11 @@ export type Database = {
           price_per_ball: number | null
           quantity: number
           region: string | null
+          status: Database["public"]["Enums"]["listing_status"]
           title: string
           updated_at: string
           user_id: string
+          views: number
         }
         Insert: {
           brand?: string | null
@@ -75,9 +77,11 @@ export type Database = {
           price_per_ball?: number | null
           quantity?: number
           region?: string | null
+          status?: Database["public"]["Enums"]["listing_status"]
           title: string
           updated_at?: string
           user_id: string
+          views?: number
         }
         Update: {
           brand?: string | null
@@ -94,9 +98,11 @@ export type Database = {
           price_per_ball?: number | null
           quantity?: number
           region?: string | null
+          status?: Database["public"]["Enums"]["listing_status"]
           title?: string
           updated_at?: string
           user_id?: string
+          views?: number
         }
         Relationships: []
       }
@@ -104,25 +110,34 @@ export type Database = {
         Row: {
           avatar_url: string | null
           created_at: string
+          email: string | null
           id: string
           nickname: string
+          phone: string | null
           region: string | null
+          seller_type: Database["public"]["Enums"]["seller_type"]
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          email?: string | null
           id: string
           nickname: string
+          phone?: string | null
           region?: string | null
+          seller_type?: Database["public"]["Enums"]["seller_type"]
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
+          email?: string | null
           id?: string
           nickname?: string
+          phone?: string | null
           region?: string | null
+          seller_type?: Database["public"]["Enums"]["seller_type"]
           updated_at?: string
         }
         Relationships: []
@@ -137,7 +152,9 @@ export type Database = {
     Enums: {
       ball_category: "new_practice" | "used_practice" | "lost_ball"
       ball_condition: "S" | "A" | "B" | "C"
+      listing_status: "active" | "reserved" | "sold"
       listing_type: "sell" | "want"
+      seller_type: "individual" | "business"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -267,7 +284,9 @@ export const Constants = {
     Enums: {
       ball_category: ["new_practice", "used_practice", "lost_ball"],
       ball_condition: ["S", "A", "B", "C"],
+      listing_status: ["active", "reserved", "sold"],
       listing_type: ["sell", "want"],
+      seller_type: ["individual", "business"],
     },
   },
 } as const
