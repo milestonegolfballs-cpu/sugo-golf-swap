@@ -226,19 +226,46 @@ function ListingDetail() {
           <FavoriteButton listingId={listing.id} />
         </div>
         <button
-          onClick={() => setContactOpen(true)}
+          onClick={async () => {
+            if (!user) {
+              navigate({ to: "/auth" });
+              return;
+            }
+            if (isOwner) {
+              toast.info("본인 상품에는 문의할 수 없어요");
+              return;
+            }
+            const { data: existing } = await supabase
+              .from("conversations")
+              .select("id")
+              .eq("product_id", listing.id)
+              .eq("buyer_id", user.id)
+              .maybeSingle();
+            let convId = existing?.id;
+            if (!convId) {
+              const { data: created, error } = await supabase
+                .from("conversations")
+                .insert({
+                  product_id: listing.id,
+                  buyer_id: user.id,
+                  seller_id: listing.user_id,
+                })
+                .select("id")
+                .single();
+              if (error || !created) {
+                toast.error("대화를 시작하지 못했어요");
+                return;
+              }
+              convId = created.id;
+            }
+            navigate({ to: "/messages/$id", params: { id: convId } });
+          }}
           className="flex-1 rounded-2xl bg-primary py-3.5 text-[15px] font-bold text-primary-foreground shadow-soft active:scale-[0.99]"
         >
           문의하기
         </button>
       </div>
 
-      <ContactDialog
-        open={contactOpen}
-        onOpenChange={setContactOpen}
-        sellerName={profile?.nickname ?? "판매자"}
-        listingTitle={listing.title}
-      />
     </div>
   );
 }
