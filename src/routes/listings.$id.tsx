@@ -71,6 +71,18 @@ function ListingDetail() {
     },
   });
 
+  useEffect(() => {
+    if (!listing?.id) return;
+    try {
+      const raw = localStorage.getItem("sugo:recent");
+      const arr: string[] = raw ? JSON.parse(raw) : [];
+      const next = [listing.id, ...arr.filter((x) => x !== listing.id)].slice(0, 20);
+      localStorage.setItem("sugo:recent", JSON.stringify(next));
+    } catch {
+      // ignore
+    }
+  }, [listing?.id]);
+
   if (isLoading) {
     return <div className="mx-auto max-w-md p-6 text-sm text-muted-foreground">불러오는 중...</div>;
   }
