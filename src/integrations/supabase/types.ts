@@ -14,6 +14,47 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          buyer_id: string
+          buyer_last_read_at: string
+          created_at: string
+          id: string
+          product_id: string
+          seller_id: string
+          seller_last_read_at: string
+          updated_at: string
+        }
+        Insert: {
+          buyer_id: string
+          buyer_last_read_at?: string
+          created_at?: string
+          id?: string
+          product_id: string
+          seller_id: string
+          seller_last_read_at?: string
+          updated_at?: string
+        }
+        Update: {
+          buyer_id?: string
+          buyer_last_read_at?: string
+          created_at?: string
+          id?: string
+          product_id?: string
+          seller_id?: string
+          seller_last_read_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       favorites: {
         Row: {
           created_at: string
@@ -106,6 +147,38 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          conversation_id: string
+          created_at: string
+          id: string
+          message: string
+          sender_id: string
+        }
+        Insert: {
+          conversation_id: string
+          created_at?: string
+          id?: string
+          message: string
+          sender_id: string
+        }
+        Update: {
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          message?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -147,7 +220,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_conversation_participant: {
+        Args: { _conv_id: string; _user_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       ball_category: "new_practice" | "used_practice" | "lost_ball"
