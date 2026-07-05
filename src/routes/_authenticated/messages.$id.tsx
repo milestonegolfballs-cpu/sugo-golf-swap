@@ -46,17 +46,24 @@ function ChatRoom() {
   const { data: conv, isLoading } = useQuery({
     queryKey: ["conversation", id],
     queryFn: async () => {
-      const { data } = await supabase
+      const { data: c } = await supabase
         .from("conversations")
         .select(
-          `id, product_id, buyer_id, seller_id,
-           listing:listings(id, title, category, price, quantity, photos),
-           buyer:profiles!conversations_buyer_id_fkey(id, nickname, avatar_url),
-           seller:profiles!conversations_seller_id_fkey(id, nickname, avatar_url)`,
+          "id, product_id, buyer_id, seller_id, listing:listings(id, title, category, price, quantity, photos)",
         )
         .eq("id", id)
         .maybeSingle();
-      return data;
+      if (!c) return null;
+      const { data: profs } = await supabase
+        .from("profiles")
+        .select("id, nickname, avatar_url")
+        .in("id", [c.buyer_id, c.seller_id]);
+      const map = new Map((profs ?? []).map((p) => [p.id, p]));
+      return {
+        ...c,
+        buyer: map.get(c.buyer_id) ?? null,
+        seller: map.get(c.seller_id) ?? null,
+      };
     },
   });
 
@@ -101,10 +108,13 @@ function ChatRoom() {
   // Mark as read whenever messages change
   useEffect(() => {
     if (!conv) return;
-    const field = conv.buyer_id === user.id ? "buyer_last_read_at" : "seller_last_read_at";
+    const patch =
+      conv.buyer_id === user.id
+        ? { buyer_last_read_at: new Date().toISOString() }
+        : { seller_last_read_at: new Date().toISOString() };
     supabase
       .from("conversations")
-      .update({ [field]: new Date().toISOString() })
+      .update(patch)
       .eq("id", id)
       .then(() => {
         queryClient.invalidateQueries({ queryKey: ["conversations", user.id] });
