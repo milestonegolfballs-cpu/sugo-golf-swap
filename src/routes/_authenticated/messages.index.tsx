@@ -38,17 +38,27 @@ function MessagesIndex() {
         .from("conversations")
         .select(
           `id, product_id, buyer_id, seller_id, buyer_last_read_at, seller_last_read_at, updated_at,
-           listing:listings(id, title, photos, price),
-           buyer:profiles!conversations_buyer_id_fkey(id, nickname, avatar_url),
-           seller:profiles!conversations_seller_id_fkey(id, nickname, avatar_url)`,
+           listing:listings(id, title, photos, price)`,
         )
         .or(`buyer_id.eq.${user.id},seller_id.eq.${user.id}`)
         .order("updated_at", { ascending: false });
 
-      const rows = (data ?? []) as unknown as Row[];
-      // Fetch last message and unread count for each conversation
+      const base = (data ?? []) as unknown as Row[];
+      const otherIds = Array.from(
+        new Set(base.map((r) => (r.buyer_id === user.id ? r.seller_id : r.buyer_id))),
+      );
+      const { data: profs } = otherIds.length
+        ? await supabase.from("profiles").select("id, nickname, avatar_url").in("id", otherIds)
+        : { data: [] };
+      const pmap = new Map((profs ?? []).map((p) => [p.id, p]));
+
       await Promise.all(
-        rows.map(async (r) => {
+        base.map(async (r) => {
+          const otherId = r.buyer_id === user.id ? r.seller_id : r.buyer_id;
+          const other = pmap.get(otherId) ?? null;
+          r.buyer = r.buyer_id === user.id ? null : other;
+          r.seller = r.seller_id === user.id ? null : other;
+
           const { data: msgs } = await supabase
             .from("messages")
             .select("message, created_at, sender_id")
@@ -68,7 +78,7 @@ function MessagesIndex() {
           r.unread = count ?? 0;
         }),
       );
-      return rows;
+      return base;
     },
   });
 
