@@ -22,6 +22,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthenticatedSellRouteImport } from './routes/_authenticated/sell'
 import { Route as AuthenticatedMeRouteImport } from './routes/_authenticated/me'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as AuthenticatedMessagesIndexRouteImport } from './routes/_authenticated/messages.index'
 import { Route as AuthenticatedMessagesIdRouteImport } from './routes/_authenticated/messages.$id'
 
@@ -89,6 +90,11 @@ const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
   path: '/favorites',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedMessagesIndexRoute =
   AuthenticatedMessagesIndexRouteImport.update({
     id: '/messages/',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/welcome': typeof WelcomeRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/me': typeof AuthenticatedMeRoute
   '/sell': typeof AuthenticatedSellRoute
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/welcome': typeof WelcomeRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/me': typeof AuthenticatedMeRoute
   '/sell': typeof AuthenticatedSellRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/search': typeof SearchRoute
   '/welcome': typeof WelcomeRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/me': typeof AuthenticatedMeRoute
   '/_authenticated/sell': typeof AuthenticatedSellRoute
@@ -160,6 +169,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/search'
     | '/welcome'
+    | '/admin'
     | '/favorites'
     | '/me'
     | '/sell'
@@ -176,6 +186,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/search'
     | '/welcome'
+    | '/admin'
     | '/favorites'
     | '/me'
     | '/sell'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/search'
     | '/welcome'
+    | '/_authenticated/admin'
     | '/_authenticated/favorites'
     | '/_authenticated/me'
     | '/_authenticated/sell'
@@ -309,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/messages/': {
       id: '/_authenticated/messages/'
       path: '/messages'
@@ -327,6 +346,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedMeRoute: typeof AuthenticatedMeRoute
   AuthenticatedSellRoute: typeof AuthenticatedSellRoute
@@ -335,6 +355,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedMeRoute: AuthenticatedMeRoute,
   AuthenticatedSellRoute: AuthenticatedSellRoute,

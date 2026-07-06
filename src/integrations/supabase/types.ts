@@ -186,6 +186,7 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
+          is_suspended: boolean
           nickname: string
           phone: string | null
           region: string | null
@@ -198,6 +199,7 @@ export type Database = {
           created_at?: string
           email?: string | null
           id: string
+          is_suspended?: boolean
           nickname: string
           phone?: string | null
           region?: string | null
@@ -210,6 +212,7 @@ export type Database = {
           created_at?: string
           email?: string | null
           id?: string
+          is_suspended?: boolean
           nickname?: string
           phone?: string | null
           region?: string | null
@@ -218,17 +221,84 @@ export type Database = {
         }
         Relationships: []
       }
+      reports: {
+        Row: {
+          created_at: string
+          id: string
+          listing_id: string
+          reason: string
+          reporter_id: string
+          resolved_at: string | null
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          listing_id: string
+          reason: string
+          reporter_id: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          listing_id?: string
+          reason?: string
+          reporter_id?: string
+          resolved_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       is_conversation_participant: {
         Args: { _conv_id: string; _user_id: string }
         Returns: boolean
       }
     }
     Enums: {
+      app_role: "admin" | "moderator" | "user"
       ball_category: "new_practice" | "used_practice" | "lost_ball"
       ball_condition: "S" | "A" | "B" | "C"
       listing_status: "active" | "reserved" | "sold"
@@ -361,6 +431,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      app_role: ["admin", "moderator", "user"],
       ball_category: ["new_practice", "used_practice", "lost_ball"],
       ball_condition: ["S", "A", "B", "C"],
       listing_status: ["active", "reserved", "sold"],
