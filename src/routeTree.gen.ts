@@ -18,6 +18,13 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ListingsIndexRouteImport } from './routes/listings.index'
 import { Route as ListingsIdRouteImport } from './routes/listings.$id'
+import { Route as LegalTermsRouteImport } from './routes/legal.terms'
+import { Route as LegalReportRouteImport } from './routes/legal.report'
+import { Route as LegalProhibitedRouteImport } from './routes/legal.prohibited'
+import { Route as LegalPrivacyRouteImport } from './routes/legal.privacy'
+import { Route as LegalNoticesRouteImport } from './routes/legal.notices'
+import { Route as LegalGuideRouteImport } from './routes/legal.guide'
+import { Route as LegalFaqRouteImport } from './routes/legal.faq'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthenticatedSellRouteImport } from './routes/_authenticated/sell'
 import { Route as AuthenticatedMeRouteImport } from './routes/_authenticated/me'
@@ -70,6 +77,41 @@ const ListingsIdRoute = ListingsIdRouteImport.update({
   path: '/listings/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LegalTermsRoute = LegalTermsRouteImport.update({
+  id: '/legal/terms',
+  path: '/legal/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalReportRoute = LegalReportRouteImport.update({
+  id: '/legal/report',
+  path: '/legal/report',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalProhibitedRoute = LegalProhibitedRouteImport.update({
+  id: '/legal/prohibited',
+  path: '/legal/prohibited',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalPrivacyRoute = LegalPrivacyRouteImport.update({
+  id: '/legal/privacy',
+  path: '/legal/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalNoticesRoute = LegalNoticesRouteImport.update({
+  id: '/legal/notices',
+  path: '/legal/notices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalGuideRoute = LegalGuideRouteImport.update({
+  id: '/legal/guide',
+  path: '/legal/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalFaqRoute = LegalFaqRouteImport.update({
+  id: '/legal/faq',
+  path: '/legal/faq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
@@ -119,6 +161,13 @@ export interface FileRoutesByFullPath {
   '/me': typeof AuthenticatedMeRoute
   '/sell': typeof AuthenticatedSellRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/legal/faq': typeof LegalFaqRoute
+  '/legal/guide': typeof LegalGuideRoute
+  '/legal/notices': typeof LegalNoticesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/prohibited': typeof LegalProhibitedRoute
+  '/legal/report': typeof LegalReportRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/listings/$id': typeof ListingsIdRoute
   '/listings/': typeof ListingsIndexRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRoute
@@ -136,6 +185,13 @@ export interface FileRoutesByTo {
   '/me': typeof AuthenticatedMeRoute
   '/sell': typeof AuthenticatedSellRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/legal/faq': typeof LegalFaqRoute
+  '/legal/guide': typeof LegalGuideRoute
+  '/legal/notices': typeof LegalNoticesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/prohibited': typeof LegalProhibitedRoute
+  '/legal/report': typeof LegalReportRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/listings/$id': typeof ListingsIdRoute
   '/listings': typeof ListingsIndexRoute
   '/messages/$id': typeof AuthenticatedMessagesIdRoute
@@ -155,6 +211,13 @@ export interface FileRoutesById {
   '/_authenticated/me': typeof AuthenticatedMeRoute
   '/_authenticated/sell': typeof AuthenticatedSellRoute
   '/category/$slug': typeof CategorySlugRoute
+  '/legal/faq': typeof LegalFaqRoute
+  '/legal/guide': typeof LegalGuideRoute
+  '/legal/notices': typeof LegalNoticesRoute
+  '/legal/privacy': typeof LegalPrivacyRoute
+  '/legal/prohibited': typeof LegalProhibitedRoute
+  '/legal/report': typeof LegalReportRoute
+  '/legal/terms': typeof LegalTermsRoute
   '/listings/$id': typeof ListingsIdRoute
   '/listings/': typeof ListingsIndexRoute
   '/_authenticated/messages/$id': typeof AuthenticatedMessagesIdRoute
@@ -174,6 +237,13 @@ export interface FileRouteTypes {
     | '/me'
     | '/sell'
     | '/category/$slug'
+    | '/legal/faq'
+    | '/legal/guide'
+    | '/legal/notices'
+    | '/legal/privacy'
+    | '/legal/prohibited'
+    | '/legal/report'
+    | '/legal/terms'
     | '/listings/$id'
     | '/listings/'
     | '/messages/$id'
@@ -191,6 +261,13 @@ export interface FileRouteTypes {
     | '/me'
     | '/sell'
     | '/category/$slug'
+    | '/legal/faq'
+    | '/legal/guide'
+    | '/legal/notices'
+    | '/legal/privacy'
+    | '/legal/prohibited'
+    | '/legal/report'
+    | '/legal/terms'
     | '/listings/$id'
     | '/listings'
     | '/messages/$id'
@@ -209,6 +286,13 @@ export interface FileRouteTypes {
     | '/_authenticated/me'
     | '/_authenticated/sell'
     | '/category/$slug'
+    | '/legal/faq'
+    | '/legal/guide'
+    | '/legal/notices'
+    | '/legal/privacy'
+    | '/legal/prohibited'
+    | '/legal/report'
+    | '/legal/terms'
     | '/listings/$id'
     | '/listings/'
     | '/_authenticated/messages/$id'
@@ -224,6 +308,13 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   WelcomeRoute: typeof WelcomeRoute
   CategorySlugRoute: typeof CategorySlugRoute
+  LegalFaqRoute: typeof LegalFaqRoute
+  LegalGuideRoute: typeof LegalGuideRoute
+  LegalNoticesRoute: typeof LegalNoticesRoute
+  LegalPrivacyRoute: typeof LegalPrivacyRoute
+  LegalProhibitedRoute: typeof LegalProhibitedRoute
+  LegalReportRoute: typeof LegalReportRoute
+  LegalTermsRoute: typeof LegalTermsRoute
   ListingsIdRoute: typeof ListingsIdRoute
   ListingsIndexRoute: typeof ListingsIndexRoute
 }
@@ -291,6 +382,55 @@ declare module '@tanstack/react-router' {
       path: '/listings/$id'
       fullPath: '/listings/$id'
       preLoaderRoute: typeof ListingsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/terms': {
+      id: '/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/legal/terms'
+      preLoaderRoute: typeof LegalTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/report': {
+      id: '/legal/report'
+      path: '/legal/report'
+      fullPath: '/legal/report'
+      preLoaderRoute: typeof LegalReportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/prohibited': {
+      id: '/legal/prohibited'
+      path: '/legal/prohibited'
+      fullPath: '/legal/prohibited'
+      preLoaderRoute: typeof LegalProhibitedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/privacy': {
+      id: '/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/legal/privacy'
+      preLoaderRoute: typeof LegalPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/notices': {
+      id: '/legal/notices'
+      path: '/legal/notices'
+      fullPath: '/legal/notices'
+      preLoaderRoute: typeof LegalNoticesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/guide': {
+      id: '/legal/guide'
+      path: '/legal/guide'
+      fullPath: '/legal/guide'
+      preLoaderRoute: typeof LegalGuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal/faq': {
+      id: '/legal/faq'
+      path: '/legal/faq'
+      fullPath: '/legal/faq'
+      preLoaderRoute: typeof LegalFaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/category/$slug': {
@@ -375,19 +515,16 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   WelcomeRoute: WelcomeRoute,
   CategorySlugRoute: CategorySlugRoute,
+  LegalFaqRoute: LegalFaqRoute,
+  LegalGuideRoute: LegalGuideRoute,
+  LegalNoticesRoute: LegalNoticesRoute,
+  LegalPrivacyRoute: LegalPrivacyRoute,
+  LegalProhibitedRoute: LegalProhibitedRoute,
+  LegalReportRoute: LegalReportRoute,
+  LegalTermsRoute: LegalTermsRoute,
   ListingsIdRoute: ListingsIdRoute,
   ListingsIndexRoute: ListingsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
