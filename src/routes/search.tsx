@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/layout/MobileShell";
 import { ProductCard } from "@/components/listings/ProductCard";
 import type { ListingPreview } from "@/components/listings/ListingCard";
-import { CATEGORIES, type CategorySlug } from "@/lib/categories";
+import { CATEGORIES, REGIONS, type CategorySlug } from "@/lib/categories";
 import {
   Popover,
   PopoverContent,
@@ -29,12 +29,10 @@ const COLS =
 type ListingKind = "all" | "sell" | "want";
 type SortKey = "newest" | "price_asc" | "price_desc";
 
-const REGIONS = [
-  "전체 지역",
-  "서울", "경기", "인천", "강원", "충북", "충남",
-  "대전", "세종", "전북", "전남", "광주", "경북",
-  "경남", "대구", "울산", "부산", "제주",
-];
+// 검색 필터에서만 쓰는 "전체 지역" + 공통 지역 목록.
+// 실제 지역 항목(서울~제주)은 lib/categories.ts에서 가져와
+// 회원가입·상품등록 화면과 항상 동일하게 유지됩니다.
+const SEARCH_REGIONS = ["전체 지역", ...REGIONS];
 
 export const Route = createFileRoute("/search")({
   head: () => ({ meta: [{ title: "검색 — SUGO" }] }),
@@ -194,7 +192,7 @@ function SearchPage() {
                 <CommandList>
                   <CommandEmpty>결과 없음</CommandEmpty>
                   <CommandGroup>
-                    {REGIONS.map((r) => (
+                    {SEARCH_REGIONS.map((r) => (
                       <CommandItem
                         key={r}
                         value={r}

@@ -15,6 +15,7 @@ import {
   LogOut,
   KeyRound,
   UserCog,
+  FileText,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { MobileShell } from "@/components/layout/MobileShell";
@@ -315,6 +316,21 @@ function MePage() {
         </div>
       </section>
 
+      {/* 약관 및 정책 */}
+      <section className="px-4 pb-4">
+        <h2 className="mb-3 px-1 text-sm font-bold text-foreground">
+          <FileText className="mr-1 inline h-4 w-4" />
+          약관 및 정책
+        </h2>
+        <div className="overflow-hidden rounded-2xl border border-border bg-white">
+          <SettingsLinkRow to="/legal/terms" label="이용약관" />
+          <SettingsLinkRow to="/legal/privacy" label="개인정보처리방침" />
+          <SettingsLinkRow to="/legal/business" label="사업자 정보" />
+          <SettingsLinkRow to="/legal/notices" label="공지사항" />
+          <SettingsLinkRow to="/legal/faq" label="자주 묻는 질문" />
+        </div>
+      </section>
+
       <EditProfileDialog
         open={editOpen}
         onOpenChange={setEditOpen}
@@ -473,6 +489,18 @@ function SettingsRow({
       <span className="flex-1 text-sm font-medium">{label}</span>
       <ChevronRight className="h-4 w-4 text-muted-foreground" />
     </button>
+  );
+}
+
+function SettingsLinkRow({ to, label }: { to: string; label: string }) {
+  return (
+    <Link
+      to={to}
+      className="flex w-full items-center gap-3 border-b border-border px-4 py-4 text-left text-foreground last:border-b-0"
+    >
+      <span className="flex-1 text-sm font-medium">{label}</span>
+      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+    </Link>
   );
 }
 

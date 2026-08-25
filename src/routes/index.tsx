@@ -13,6 +13,8 @@ import {
 import { CATEGORIES } from "@/lib/categories";
 import { SugoLogo } from "@/components/brand/SugoLogo";
 import { CategoryBallIcon } from "@/components/icons/GolfBallIcons";
+import { BusinessInfoFooter } from "@/components/layout/BusinessInfoFooter";
+import { AdBanner } from "@/components/layout/AdBanner";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -181,6 +183,10 @@ function HomePage() {
         )}
       </section>
 
+      {/* 광고 슬롯 — 트래픽 확보 후 광고 소재를 children으로 채워주세요.
+          지금처럼 비어 있으면 아무것도 렌더링되지 않습니다. */}
+      <AdBanner slot="home-mid" className="mt-8" />
+
       {/* Recent */}
       <section className="mt-8">
         <SectionHeader title="🆕 최근 등록 상품" hideMore />
@@ -195,7 +201,9 @@ function HomePage() {
         )}
       </section>
 
-      <div className="h-10" />
+      <BusinessInfoFooter />
+
+      <div className="h-6" />
     </MobileShell>
   );
 }
