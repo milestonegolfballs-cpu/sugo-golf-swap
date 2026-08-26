@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate, useSearch, Link } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { ArrowLeft, Check } from "lucide-react";
 import { SugoLogo } from "@/components/brand/SugoLogo";
@@ -125,16 +124,18 @@ function SignInForm({
 
   async function onGoogle() {
     setLoading(true);
-    const res = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    // Supabase 표준 OAuth 플로우 — 특수 서버 경로 없이 어떤 도메인
+    // (Vercel 포함)에서도 동작합니다. 구글로 리디렉션됐다가 로그인
+    // 완료 후 다시 이 사이트로 돌아옵니다.
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
     });
-    if (res.error) {
+    if (error) {
       toast.error("Google 로그인에 실패했어요");
       setLoading(false);
-      return;
     }
-    if (res.redirected) return;
-    navigate({ to: redirect ?? "/", replace: true });
+    // 성공 시 브라우저가 구글로 즉시 이동하므로 별도 처리가 필요 없습니다.
   }
 
   return (
